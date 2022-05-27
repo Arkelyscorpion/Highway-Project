@@ -1,4 +1,5 @@
 import tkinter as tk
+from click import option
 from fpdf import FPDF
 from nhsh import *
 from mdr import *
@@ -12,6 +13,54 @@ options = [
     "UR"
 ]
   
+# # datatype of menu text
+# clicked = tk.StringVar()
+  
+# # initial menu text
+# clicked.set( "NH/SH" )
+
+# # Create Dropdown menu
+# drop = tk.OptionMenu( root , clicked , *options )
+# drop.pack()
+
+# canvas1 = tk.Canvas(root, width = 400, height = 300)
+# canvas1.pack()
+
+# label1 = tk.Label(root, text= "Cracking (%)")
+# canvas1.create_window(100,100,window=label1)
+# entry1 = tk.Entry (root) 
+# canvas1.create_window(200, 100, window=entry1)
+
+# label2 = tk.Label(root, text= "Ravelling (%)")
+# canvas1.create_window(100,120,window=label2)
+# entry2 = tk.Entry (root) 
+# canvas1.create_window(200, 120, window=entry2)
+
+# label3 = tk.Label(root, text= "Potholes (%)")
+# canvas1.create_window(100,140,window=label3)
+# entry3 = tk.Entry (root) 
+# canvas1.create_window(200, 140, window=entry3)
+
+# label4 = tk.Label(root, text= "Shoving (%)")
+# canvas1.create_window(100,160,window=label4)
+# entry4 = tk.Entry (root) 
+# canvas1.create_window(200, 160, window=entry4)
+
+# label5 = tk.Label(root, text= "Patching (%)")
+# canvas1.create_window(100,180,window=label5)
+# entry5 = tk.Entry (root) 
+# canvas1.create_window(200, 180, window=entry5)
+
+# label6 = tk.Label(root, text= "Settlements (%)")
+# canvas1.create_window(100,200,window=label6)
+# entry6 = tk.Entry (root) 
+# canvas1.create_window(200, 200, window=entry6)
+
+# label7 = tk.Label(root, text= "Rut Depth (%)")
+# canvas1.create_window(100,220,window=label7)
+# entry7 = tk.Entry (root) 
+# canvas1.create_window(200, 220, window=entry7)
+
 # datatype of menu text
 clicked = tk.StringVar()
   
@@ -22,43 +71,76 @@ clicked.set( "NH/SH" )
 drop = tk.OptionMenu( root , clicked , *options )
 drop.pack()
 
-canvas1 = tk.Canvas(root, width = 400, height = 300)
+canvas1 = tk.Canvas(root, width = 600, height = 600)
 canvas1.pack()
 
+labelcategory = tk.Label(root,text= "Category of road")
+canvas1.create_window(50,70,window=labelcategory)
+
+labelname = tk.Label(root,text= "Name of the road")
+canvas1.create_window(75,70,window=labelname)
+entryname = tk.Entry(root)
+canvas1.create_window(225,70,window=entryname)
+
+labelchainage = tk.Label(root,text= "Chainage of test section")
+canvas1.create_window(75,80,window=labelname)
+entrychainage = tk.Entry(root)
+canvas1.create_window(225,80,window=entrychainage)
+
+labelsurface = tk.Label(root,text= "Type of surface")
+canvas1.create_window(75,90,window=labelsurface)
+entrysurface = tk.Entry(root)
+canvas1.create_window(225,90,window=entrysurface)
+
+labelcarriage = tk.Label(root,text= "Carriage width (m)")
+canvas1.create_window(75,100,window=labelcarriage)
+entrycarriage = tk.Entry(root)
+canvas1.create_window(225,100,window=entrycarriage)
+
+labeldate = tk.Label(root,text= "Date of observation (dd/mm/yyyy)")
+canvas1.create_window(75,110,window=labeldate)
+entrydate = tk.Entry(root)
+canvas1.create_window(225,110,window=entrydate)
+
+labelweather = tk.Label(root,text= "Weather condition")
+canvas1.create_window(75,120,window=labelname)
+entryweather = tk.Entry(root)
+canvas1.create_window(225,120,window=entrychainage)
+
 label1 = tk.Label(root, text= "Cracking (%)")
-canvas1.create_window(100,100,window=label1)
+canvas1.create_window(225,130,window=label1)
 entry1 = tk.Entry (root) 
-canvas1.create_window(200, 100, window=entry1)
+canvas1.create_window(375, 130, window=entry1)
 
 label2 = tk.Label(root, text= "Ravelling (%)")
-canvas1.create_window(100,120,window=label2)
+canvas1.create_window(225,180,window=label2)
 entry2 = tk.Entry (root) 
-canvas1.create_window(200, 120, window=entry2)
+canvas1.create_window(375, 180, window=entry2)
 
 label3 = tk.Label(root, text= "Potholes (%)")
-canvas1.create_window(100,140,window=label3)
+canvas1.create_window(225,230,window=label3)
 entry3 = tk.Entry (root) 
-canvas1.create_window(200, 140, window=entry3)
+canvas1.create_window(375, 230, window=entry3)
 
 label4 = tk.Label(root, text= "Shoving (%)")
-canvas1.create_window(100,160,window=label4)
+canvas1.create_window(225,280,window=label4)
 entry4 = tk.Entry (root) 
-canvas1.create_window(200, 160, window=entry4)
+canvas1.create_window(375, 280, window=entry4)
 
 label5 = tk.Label(root, text= "Patching (%)")
-canvas1.create_window(100,180,window=label5)
+canvas1.create_window(225,310,window=label5)
 entry5 = tk.Entry (root) 
-canvas1.create_window(200, 180, window=entry5)
+canvas1.create_window(375, 310, window=entry5)
 
 label6 = tk.Label(root, text= "Settlements (%)")
-canvas1.create_window(100,200,window=label6)
+canvas1.create_window(225,340,window=label6)
 entry6 = tk.Entry (root) 
-canvas1.create_window(200, 200, window=entry6)
+canvas1.create_window(375, 340, window=entry6)
 
 label7 = tk.Label(root, text= "Rut Depth (%)")
-canvas1.create_window(100,220,window=label7)
+canvas1.create_window(225,370,window=label7)
 entry7 = tk.Entry (root) 
-canvas1.create_window(200, 220, window=entry7)
+canvas1.create_window(375, 370, window=entry7)
 
 number = 0
 def func():  
@@ -163,15 +245,44 @@ if(OPTION == options[2]):
     ("Rut depth",str(inputs[4]),str(final_list[4]),str(wt[4]),str(round(final_list[4]*wt[4],1))),
     )
 
+
+
 pdf = FPDF()
 pdf.add_page()
-pdf.set_font("Times", size=10)
+pdf.set_font("Helvetica", size=16, style='B')
+pdf.ln()
+pdf.cell(txt = "RATING OF PAVEMENTS BASED ON QUANTITY OF DISTRESS",align = 'C') 
 line_height = pdf.font_size * 2.5
 col_width = pdf.epw / 5 
-
+pdf.ln()
+pdf.ln()
+pdf.set_font("Helvetica",size = 10)
 lh_list = [] #list with proper line_height for each row
 use_default_height = 0 #flag
-
+if(OPTION == options[0]):
+    road_type = "National Highways / State Highways"
+elif(OPTION == options[1]):
+    road_type = "MDR(s) and Rural Roads"
+else:
+    road_type = "Urban Roads"
+pdf.ln()
+pdf.cell(txt = "Catogory of Road : " + road_type)
+pdf.ln()
+pdf.ln()
+pdf.cell(txt = "Name of the Road : ")
+pdf.cell(120,txt = "Carraigeway Width(m) : ",align='R')
+pdf.ln()
+pdf.ln()
+pdf.cell(txt = "Chainage of Test Section : ")
+pdf.cell(130,txt = "Date of Observation : ",align='R')
+pdf.ln()
+pdf.ln()
+pdf.cell(txt = "Type of Surface :")
+pdf.cell(130,txt = "Weather Condition",align='R')
+pdf.ln()
+pdf.ln()
+pdf.ln()
+pdf.set_font("Helvetica",size = 10)
 #create lh_list of line_heights which size is equal to num rows of data
 for row in data:
     for datum in row:
@@ -189,29 +300,25 @@ for row in data:
 #create your fpdf table ..passing also max_line_height!
 for j,row in enumerate(data):
     for datum in row:
+        if(j == 0):
+            pdf.set_font(style='B')
+        else:
+            pdf.set_font()
         line_height = lh_list[j] #choose right height for current row
         pdf.multi_cell(col_width, line_height, datum, border=1,align='L',ln=3, 
         max_line_height=pdf.font_size)
     pdf.ln(line_height)
 
-pdf.cell(20, 100, txt = "Final Rating Value = " + str(round(final_rating_value,1)), 
+pdf.ln()
+pdf.set_font(style='B')
+pdf.cell(txt = "Final Rating Value = " + str(round(final_rating_value,1)), 
             ln = 1, align = 'L')
+pdf.ln()
 pdf.cell(txt="Condition : " + cond,ln = 1,align='L')
 
 
 pdf.output('table_with_cells.pdf')
 
 
-# root= tk.Tk()
 
-# canvas1 = tk.Canvas(root, width = 300, height = 300)
-# canvas1.pack()
 
-# def hello ():  
-#     label1 = tk.Label(root, text= 'Hello World!', fg='green', font=('helvetica', 12, 'bold'))
-#     canvas1.create_window(150, 200, window=label1)
-    
-# button1 = tk.Button(text='Click Me',command=hello, bg='brown',fg='white')
-# canvas1.create_window(150, 150, window=button1)
-
-# root.mainloop()
