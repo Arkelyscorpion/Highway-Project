@@ -6,6 +6,7 @@ from fpdf import FPDF
 from nhsh import *
 from mdr import *
 from ur import *
+from idata import IData
 
 x1, x2, x3, x4, x5, x6, x7 = 0.0,0.0,0.0,0.0,0.0,0.0,0.0
 OPTION = "NH/SH"
@@ -19,7 +20,7 @@ options = [
 
 root.title("Rating of Pavement Based On Quantity of Distress")
 root.configure(background='#005555')
-root.minsize(750, 660)
+root.minsize(750, 680)
 
 # datatype of menu text
 clicked = tk.StringVar()
@@ -28,10 +29,14 @@ clicked = tk.StringVar()
 clicked.set("NH/SH")
 
 # Create Dropdown menu
-drop = tk.OptionMenu(root, clicked, *options)
-drop.config(bg='#A1E3D8', padx=10, pady=5)
-drop["menu"].config(bg="#005555", fg='white')
-drop.pack()
+# drop = tk.OptionMenu(root, clicked, *options)
+# drop.config(bg='#A1E3D8', padx=10, pady=5)
+# drop["menu"].config(bg="#005555", fg='white')
+# drop.pack()
+
+labeltitle = tk.Label(root, text="Calculation of Final Rating Values Based on Quantity of Distress", bg='#005555',fg="white",padx=20,pady=10)
+labeltitle.config(font=('Bahnschrift SemiBold',16))
+labeltitle.pack()
 
 canvas1 = tk.Canvas(root, width=700, height=600, bg='#A1E3D8')
 canvas1.pack()
@@ -41,8 +46,13 @@ canvas1.pack()
 
 labelcategory = tk.Label(root, text="Category of road", bg='#A1E3D8')
 canvas1.create_window(125, 50, window=labelcategory)
-entrycategory = tk.Entry(root)
-canvas1.create_window(270, 50, window=entrycategory)
+
+# Create Dropdown menu
+drop = tk.OptionMenu(root, clicked, *options)
+drop.config(bg='#A1E3D8')
+drop["menu"].config(bg="#005555", fg='white')
+canvas1.create_window(270, 45, window=drop)
+
 
 # label = tk.Label(frame, text="Name of the road", bg='#A1E3D8')
 # label.pack()
@@ -131,6 +141,13 @@ entry5.insert(0,"9")
 entry6.insert(0,"9")
 entry7.insert(0,"9")
 
+entryname.insert(0,"default")
+entrychainage.insert(0,"default")
+entrysurface.insert(0,"default")
+entrycarriage.insert(0,"8.92")
+entryweather.insert(0,"Sunny")
+entrydate.insert(0,"29/09/2102")
+
 # --------------------------------------------------------------------------------------
 
 
@@ -154,14 +171,18 @@ def func():
 
     global OPTION
     OPTION = clicked.get()
-    label1 = tk.Label(root, text=OPTION)
-    canvas1.create_window(350, 470, window=label1)
+
+    IData['name'] = entryname.get()
+    IData['chainage'] = entrychainage.get()
+    IData['surface'] = entrysurface.get()
+    IData['carriage'] = float(entrycarriage.get())
+    IData['weather'] = entryweather.get()
+    IData['date'] = entrydate.get()
 
 
-
-# button1 = tk.Button(text='Submit', command=func, padx=10,
-#                     pady=5, fg='white', bg='#005555')
-# canvas1.create_window(350, 510, window=button1)
+button1 = tk.Button(text='Submit', command=func, padx=10,
+                    pady=5, fg='white', bg='#005555')
+canvas1.create_window(350, 510, window=button1)
 
 
 root.mainloop()
@@ -349,18 +370,18 @@ pdf.cell(txt="Category of Road : " + road_type)
 pdf.ln()
 pdf.ln()
 
-pdf.cell(txt="Name of the Road : ")
-pdf.cell(100, txt="Carraigeway Width(m) : ", align='R')
+pdf.cell(txt= f"Name of the Road : " + IData['name'])
+pdf.cell(111, txt="Carraigeway Width(m) : " + str(IData['carriage']), align='R')
 pdf.ln()
 pdf.ln()
 
-pdf.cell(txt="Chainage of Test Section : ")
-pdf.cell(130, txt="Date of Observation : ", align='R')
+pdf.cell(txt="Chainage of Test Section : " + IData['chainage'])
+pdf.cell(107, txt="Date of Observation : " + IData['date'], align='R')
 pdf.ln()
 pdf.ln()
 
-pdf.cell(txt="Type of Surface :")
-pdf.cell(130, txt="Weather Condition", align='R')
+pdf.cell(txt="Type of Surface : " + IData['surface'])
+pdf.cell(112, txt="Weather Condition : " + IData['weather'], align='R')
 pdf.ln()
 pdf.ln()
 
@@ -411,6 +432,6 @@ pdf.output('Data.pdf')
 print("PDF Generated")
 
 
-import os 
+# import os 
 
-os.startfile(r'C:\Users\jaggu\Code\Projects\Highway-Project\Data.pdf')
+# os.startfile(r'C:\Users\jaggu\Code\Projects\Highway-Project\Data.pdf')
