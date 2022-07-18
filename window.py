@@ -1,3 +1,5 @@
+# THIS IS THE TEMPORARY FILE WE CREATED WITH THE BASIC DESIGN
+
 import tkinter as tk
 from fpdf import FPDF
 from nhsh import *
