@@ -6,6 +6,7 @@ from mdr import calculateMDR
 from ur import calculateUR
 from pdf import generatePDF
 from idata import IData
+from tkcalendar import Calendar, DateEntry
 
 import os
 
@@ -82,7 +83,7 @@ canvas1.create_window(550, 80, window=entryweather)
 
 labeldate = tk.Label(root, text="Date of observation", bg='#A1E3D8')                            # DATE
 canvas1.create_window(425, 110, window=labeldate)
-entrydate = tk.Entry(root)
+entrydate = DateEntry(root, width= 16, background= "#005555", foreground= "white",bd=2)
 canvas1.create_window(550, 110, window=entrydate)
 
 labeldateformat = tk.Label(root, text="(dd/mm/yyyy)", bg='#A1E3D8')
@@ -144,7 +145,6 @@ entrychainage.insert(0,"default")
 entrysurface.insert(0,"default")
 entrycarriage.insert(0,"8.92")
 entryweather.insert(0,"Sunny")
-entrydate.insert(0,"29/09/2102")
 
 # SUBMIT 
 
@@ -166,7 +166,7 @@ def submit():
     IData['surface'] = entrysurface.get()
     IData['carriage'] = float(entrycarriage.get())
     IData['weather'] = entryweather.get()
-    IData['date'] = entrydate.get()
+    IData['date'] = entrydate.get_date()
 
 # RESET 
 
@@ -242,8 +242,6 @@ elif(OPTION == options[2]):
 
 generatePDF(options,OPTION,data,final_rating_value,cond)
 os.startfile(r'C:\Users\jaggu\Code\Projects\Highway-Project\Data.pdf')
-
-
 
 
 

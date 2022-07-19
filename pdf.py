@@ -51,7 +51,7 @@ def generatePDF(options,OPTION,data,final_rating_value,cond):
     pdf.ln()
 
     pdf.cell(txt="Chainage of Test Section : " + IData['chainage'])
-    pdf.cell(107, txt="Date of Observation : " + IData['date'], align='R')
+    pdf.cell(107, txt="Date of Observation : " + str(IData['date']), align='R')
     pdf.ln()
     pdf.ln()
 
