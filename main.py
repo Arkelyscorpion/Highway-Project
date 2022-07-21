@@ -7,6 +7,7 @@ from ur import calculateUR
 from pdf import generatePDF
 from idata import IData
 from tkcalendar import Calendar, DateEntry
+from datetime import datetime
 
 import os
 
@@ -19,6 +20,13 @@ options = [
     "MDR/ODR/VR",
     "UR"
 ]
+
+categories = {
+    "NH/SH" : "National Highways / State Highways",
+    "MDR/ODR/VR" : "MDR(s) and Rural Roads",
+    "UR" : "Urban Roads"
+}
+
 
 # -------------------------------------------------------------------------------------- 
 
@@ -161,12 +169,44 @@ def submit():
     global OPTION
     OPTION = clicked.get()
 
+    IData['category'] = categories[OPTION]
     IData['name'] = entryname.get()
     IData['chainage'] = entrychainage.get()
     IData['surface'] = entrysurface.get()
     IData['carriage'] = float(entrycarriage.get())
     IData['weather'] = entryweather.get()
     IData['date'] = entrydate.get_date()
+    IData['optionChosen'] = OPTION
+
+    # -------------------------------------------------------------------------------------- 
+    #                                     FUNCTIONALITY 
+    # --------------------------------------------------------------------------------------
+
+    # DEPENDING ON THE CATEGORY CHOSEN PICK THE NECESSARY VALUES
+
+    if(OPTION == options[0]):
+        data, final_rating_value,cond = calculateNHSH()
+    elif(OPTION == options[1]):
+        data, final_rating_value,cond = calculateMDR()
+    elif(OPTION == options[2]):
+        data, final_rating_value,cond = calculateUR()
+
+    date = datetime.now().strftime("%Y_%m_%d_%I_%M_%S_%p")  
+    tempFileName = f"Rating_{date}"
+    fileName = r'{}'.format(tempFileName)
+
+    # -------------------------------------------------------------------------------------- 
+    #                                     PDF GENERATION 
+    # --------------------------------------------------------------------------------------
+
+    # GENERATE THE PDF
+
+    generatePDF(options,OPTION,data,final_rating_value,cond,fileName)
+
+    # OPEN THE FILE
+
+    os.startfile(r'{}.pdf'.format(fileName))
+
 
 # RESET 
 
@@ -225,12 +265,12 @@ root.mainloop()
 
 # DEPENDING ON THE CATEGORY CHOSEN PICK THE NECESSARY VALUES
 
-if(OPTION == options[0]):
-    data, final_rating_value,cond = calculateNHSH()
-elif(OPTION == options[1]):
-    data, final_rating_value,cond = calculateMDR()
-elif(OPTION == options[2]):
-    data, final_rating_value,cond = calculateUR()
+# if(OPTION == options[0]):
+#     data, final_rating_value,cond = calculateNHSH()
+# elif(OPTION == options[1]):
+#     data, final_rating_value,cond = calculateMDR()
+# elif(OPTION == options[2]):
+#     data, final_rating_value,cond = calculateUR()
 
 # -------------------------------------------------------------------------------------- 
 
@@ -240,9 +280,9 @@ elif(OPTION == options[2]):
 
 # GENERATE THE PDF
 
-generatePDF(options,OPTION,data,final_rating_value,cond)
-os.startfile(r'C:\Users\jaggu\Code\Projects\Highway-Project\Data.pdf')
+# generatePDF(options,OPTION,data,final_rating_value,cond)
 
+# os.startfile(r'{}.pdf'.format(fileName))
 
 
 

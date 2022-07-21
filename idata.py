@@ -8,7 +8,7 @@ from unicodedata import category
 IData = {
 
     'category' : '',
-    'name' : 'dsadsadasd',
+    'name' : '',
     'chainage' : '',
     'surface' : '',
     'carriage' : 0.0,

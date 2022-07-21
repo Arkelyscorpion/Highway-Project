@@ -7,7 +7,8 @@
 from fpdf import FPDF
 from idata import IData
 
-def generatePDF(options,OPTION,data,final_rating_value,cond):
+
+def generatePDF(options,OPTION,data,final_rating_value,cond,fileName):
 
     # INITIALIZE PAGE  
 
@@ -41,7 +42,7 @@ def generatePDF(options,OPTION,data,final_rating_value,cond):
 
     pdf.ln()
 
-    pdf.cell(txt="Category of Road : " + road_type)
+    pdf.cell(txt="Category of Road : " + IData['category'])
     pdf.ln()
     pdf.ln()
 
@@ -101,6 +102,6 @@ def generatePDF(options,OPTION,data,final_rating_value,cond):
 
     #pdf.output('table_with_cells.pdf')
 
-    pdf.output('Data.pdf')
+    pdf.output(r"{}.pdf".format(fileName))
 
     print("PDF Generated")  
