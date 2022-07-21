@@ -99,40 +99,38 @@ canvas1.create_window(425, 130, window=labeldateformat)
 
 # INPUTS FOR NUMERICALS
 
+entry = []
+
+for i in range(0,7):
+    entry.append(tk.Entry(root,highlightthickness=2))
+
 label1 = tk.Label(root, text="Cracking (%)", bg='#A1E3D8')
 canvas1.create_window(225, 200, window=label1)
-entry1 = tk.Entry(root)
-canvas1.create_window(375, 200, window=entry1)
+canvas1.create_window(375, 200, window=entry[0])
 
 label2 = tk.Label(root, text="Ravelling (%)", bg='#A1E3D8')
 canvas1.create_window(225, 240, window=label2)
-entry2 = tk.Entry(root)
-canvas1.create_window(375, 240, window=entry2)
+canvas1.create_window(375, 240, window=entry[1])
 
 label3 = tk.Label(root, text="Potholes (%)", bg='#A1E3D8')
 canvas1.create_window(225, 280, window=label3)
-entry3 = tk.Entry(root)
-canvas1.create_window(375, 280, window=entry3)
+canvas1.create_window(375, 280, window=entry[2])
 
 label4 = tk.Label(root, text="Shoving (%)", bg='#A1E3D8')
 canvas1.create_window(225, 320, window=label4)
-entry4 = tk.Entry(root)
-canvas1.create_window(375, 320, window=entry4)
+canvas1.create_window(375, 320, window=entry[3])
 
 label5 = tk.Label(root, text="Patching (%)", bg='#A1E3D8')
 canvas1.create_window(225, 360, window=label5)
-entry5 = tk.Entry(root)
-canvas1.create_window(375, 360, window=entry5)
+canvas1.create_window(375, 360, window=entry[4])
 
 label6 = tk.Label(root, text="Settlements (%)", bg='#A1E3D8')
 canvas1.create_window(225, 400, window=label6)
-entry6 = tk.Entry(root)
-canvas1.create_window(375, 400, window=entry6)
+canvas1.create_window(375, 400, window=entry[5])
 
 label7 = tk.Label(root, text="Rut Depth (%)", bg='#A1E3D8')
 canvas1.create_window(225, 440, window=label7)
-entry7 = tk.Entry(root)
-canvas1.create_window(375, 440, window=entry7)
+canvas1.create_window(375, 440, window=entry[6])
 
 # -------------------------------------------------------------------------------------- 
 
@@ -140,13 +138,13 @@ canvas1.create_window(375, 440, window=entry7)
 
 # --------------------------------------------------------------------------------------
 
-entry1.insert(0,"9")
-entry2.insert(0,"9")
-entry3.insert(0,"9")
-entry4.insert(0,"9")
-entry5.insert(0,"9")
-entry6.insert(0,"9")
-entry7.insert(0,"9")
+entry[0].insert(0,"9")
+entry[1].insert(0,"9")
+entry[2].insert(0,"9")
+entry[3].insert(0,"9")
+entry[4].insert(0,"9")
+entry[5].insert(0,"9")
+entry[6].insert(0,"9")
 
 entryname.insert(0,"default")
 entrychainage.insert(0,"default")
@@ -156,15 +154,28 @@ entryweather.insert(0,"Sunny")
 
 # SUBMIT 
 
+def validate(a):
+    if a.isdigit() and float(a)<=100 and float(a)>=0:
+        return True
+    else: 
+        return False
+
 def submit():
 
-    IData['inum'][0] = float(entry1.get())
-    IData['inum'][1] = float(entry2.get())
-    IData['inum'][2] = float(entry3.get())
-    IData['inum'][3] = float(entry4.get())
-    IData['inum'][4] = float(entry5.get())
-    IData['inum'][5] = float(entry6.get())
-    IData['inum'][6] = float(entry7.get())
+    valid=[]
+    for i in range(0,7):
+        valid.append(validate(entry[i].get()))
+    
+    if valid.count(False)==0:
+        for i in range(0,7):
+            IData['inum'][i] = float(entry[i].get())
+            entry[i].config(highlightbackground = "white", highlightcolor= "white")
+    else:
+        for i in range(0,7):
+            if valid[i] == False:
+                entry[i].config(highlightbackground = "red", highlightcolor= "red")
+            else:
+                entry[i].config(highlightbackground = "white", highlightcolor= "white")
 
     global OPTION
     OPTION = clicked.get()
@@ -177,6 +188,8 @@ def submit():
     IData['weather'] = entryweather.get()
     IData['date'] = entrydate.get_date()
     IData['optionChosen'] = OPTION
+
+    print(IData)
 
     # -------------------------------------------------------------------------------------- 
     #                                     FUNCTIONALITY 
@@ -212,20 +225,9 @@ def submit():
 
 def reset():
 
-    entry1.delete(0,tk.END)
-    entry1.insert(0,"")
-    entry2.delete(0,tk.END)
-    entry2.insert(0,"")
-    entry3.delete(0,tk.END)
-    entry3.insert(0,"")
-    entry4.delete(0,tk.END)
-    entry4.insert(0,"")
-    entry5.delete(0,tk.END)
-    entry5.insert(0,"")
-    entry6.delete(0,tk.END)
-    entry6.insert(0,"")
-    entry7.delete(0,tk.END)
-    entry7.insert(0,"")
+    for i in range(0,7):
+        entry[i].delete(0,tk.END)
+        entry[i].insert(0,"") 
 
     entryname.delete(0,tk.END)
     entryname.insert(0,"")
