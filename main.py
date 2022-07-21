@@ -8,6 +8,7 @@ from pdf import generatePDF
 from idata import IData
 from tkcalendar import Calendar, DateEntry
 from datetime import datetime
+from function import is_number
 
 import os
 
@@ -57,6 +58,11 @@ canvas1.pack()
 labelcategory = tk.Label(root, text="Category of road", bg='#A1E3D8')                           # CATEGORY
 canvas1.create_window(125, 50, window=labelcategory)
 
+detail = []
+
+for i in range(0,5):
+    detail.append(tk.Entry(root,highlightthickness=2))
+
 clicked = tk.StringVar()                                            # DATATYPE OF MENU TEXT
 clicked.set("NH/SH")                                                # INITIAL MENU TEXT
 dropdowncategory = tk.OptionMenu(root, clicked, *options)
@@ -66,35 +72,30 @@ canvas1.create_window(270, 45, window=dropdowncategory)
 
 labelname = tk.Label(root, text="Name of the road", bg='#A1E3D8')                               # NAME
 canvas1.create_window(125, 80, window=labelname)
-entryname = tk.Entry(root)
-canvas1.create_window(270, 80, window=entryname)
+canvas1.create_window(270, 80, window=detail[0])
 
 labelchainage = tk.Label(root, text="Chainage of test section", bg='#A1E3D8')                   # CHAINAGE
 canvas1.create_window(125, 110, window=labelchainage)
-entrychainage = tk.Entry(root)
-canvas1.create_window(270, 110, window=entrychainage)
+canvas1.create_window(270, 110, window=detail[1])
 
 labelsurface = tk.Label(root, text="Type of surface", bg='#A1E3D8')                             # SURFACE
 canvas1.create_window(125, 140, window=labelsurface)
-entrysurface = tk.Entry(root)
-canvas1.create_window(270, 140, window=entrysurface)
+canvas1.create_window(270, 140, window=detail[2])
 
 labelcarriage = tk.Label(root, text="Carriage width (m)", bg='#A1E3D8')                         # CARRIAGE
 canvas1.create_window(425, 50, window=labelcarriage)
-entrycarriage = tk.Entry(root)
-canvas1.create_window(550, 50, window=entrycarriage)
+canvas1.create_window(550, 50, window=detail[3])
 
 labelweather = tk.Label(root, text="Weather condition", bg='#A1E3D8')                           # WEATHER
 canvas1.create_window(425, 80, window=labelweather)
-entryweather = tk.Entry(root)
-canvas1.create_window(550, 80, window=entryweather)
+canvas1.create_window(550, 80, window=detail[4])
 
 labeldate = tk.Label(root, text="Date of observation", bg='#A1E3D8')                            # DATE
 canvas1.create_window(425, 110, window=labeldate)
 entrydate = DateEntry(root, width= 16, background= "#005555", foreground= "white",bd=2)
 canvas1.create_window(550, 110, window=entrydate)
 
-labeldateformat = tk.Label(root, text="(dd/mm/yyyy)", bg='#A1E3D8')
+labeldateformat = tk.Label(root, text="(mm/dd/yyyy)", bg='#A1E3D8')
 canvas1.create_window(425, 130, window=labeldateformat)
 
 # INPUTS FOR NUMERICALS
@@ -138,38 +139,37 @@ canvas1.create_window(375, 440, window=entry[6])
 
 # --------------------------------------------------------------------------------------
 
-entry[0].insert(0,"9")
-entry[1].insert(0,"9")
-entry[2].insert(0,"9")
-entry[3].insert(0,"9")
-entry[4].insert(0,"9")
-entry[5].insert(0,"9")
-entry[6].insert(0,"9")
+for i in range(0,7):
+    entry[i].insert(0,"9")
 
-entryname.insert(0,"default")
-entrychainage.insert(0,"default")
-entrysurface.insert(0,"default")
-entrycarriage.insert(0,"8.92")
-entryweather.insert(0,"Sunny")
+for i in range(0,3):
+    detail[i].insert(0,"default")
+detail[3].insert(0,"8.92")
+detail[4].insert(0,"Sunny")
 
 # SUBMIT 
 
 def validate(a):
-    if a.isdigit() and float(a)<=100 and float(a)>=0:
+    if is_number(a) and float(a)<=100 and float(a)>=0:
         return True
     else: 
         return False
 
+
 def submit():
+
+    flag1 = False
+    flag2 = False
 
     valid=[]
     for i in range(0,7):
         valid.append(validate(entry[i].get()))
     
-    if valid.count(False)==0:
+    if valid.count(False) == 0:
         for i in range(0,7):
             IData['inum'][i] = float(entry[i].get())
             entry[i].config(highlightbackground = "white", highlightcolor= "white")
+            flag1 = True
     else:
         for i in range(0,7):
             if valid[i] == False:
@@ -180,16 +180,31 @@ def submit():
     global OPTION
     OPTION = clicked.get()
 
-    IData['category'] = categories[OPTION]
-    IData['name'] = entryname.get()
-    IData['chainage'] = entrychainage.get()
-    IData['surface'] = entrysurface.get()
-    IData['carriage'] = float(entrycarriage.get())
-    IData['weather'] = entryweather.get()
-    IData['date'] = entrydate.get_date()
-    IData['optionChosen'] = OPTION
-
-    print(IData)
+    check = []
+    check.append(len(detail[0].get())<=75)
+    check.append(len(detail[1].get())<=15)
+    check.append(len(detail[2].get())<=15)
+    check.append(is_number(detail[3].get()) and float(detail[3].get())<=15 and float(detail[3].get())>=0)
+    check.append(len(detail[4].get())<=10)
+     
+    if check.count(False) == 0:
+        IData['category'] = categories[OPTION]
+        IData['name'] = detail[0].get()
+        IData['chainage'] = detail[1].get()
+        IData['surface'] = detail[2].get()
+        IData['carriage'] = float(detail[3].get())
+        IData['weather'] = detail[4].get()
+        IData['date'] = entrydate.get_date()
+        IData['optionChosen'] = OPTION
+        for i in range(0,5):
+            detail[i].config(highlightbackground = "white", highlightcolor= "white")
+        flag2 = True
+    else:
+        for i in range(0,5):
+            if check[i] == False:
+                detail[i].config(highlightbackground = "red", highlightcolor= "red")
+            else:
+                detail[i].config(highlightbackground = "white", highlightcolor= "white")
 
     # -------------------------------------------------------------------------------------- 
     #                                     FUNCTIONALITY 
@@ -214,11 +229,13 @@ def submit():
 
     # GENERATE THE PDF
 
-    generatePDF(options,OPTION,data,final_rating_value,cond,fileName)
-
+    if flag1 and flag2:
+        generatePDF(options,OPTION,data,final_rating_value,cond,fileName)
+    
     # OPEN THE FILE
-
-    os.startfile(r'{}.pdf'.format(fileName))
+        os.startfile(r'{}.pdf'.format(fileName))
+        tk.messagebox.showinfo("Success",  "Your pdf has been generated successfully!")
+        reset()
 
 
 # RESET 
@@ -229,16 +246,9 @@ def reset():
         entry[i].delete(0,tk.END)
         entry[i].insert(0,"") 
 
-    entryname.delete(0,tk.END)
-    entryname.insert(0,"")
-    entrychainage.delete(0,tk.END)
-    entrychainage.insert(0,"")
-    entrysurface.delete(0,tk.END)
-    entrysurface.insert(0,"")
-    entrycarriage.delete(0,tk.END)
-    entrycarriage.insert(0,"")
-    entryweather.delete(0,tk.END)
-    entryweather.insert(0,"")
+    for i in range(0,5):
+        detail[i].delete(0,tk.END)
+        detail[i].insert(0,"")
     entrydate.delete(0,tk.END)
     entrydate.insert(0,"")
 
