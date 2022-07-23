@@ -1,6 +1,7 @@
 # IMPORTS 
 
 import tkinter as tk
+from tkinter import messagebox
 from nhsh import calculateNHSH
 from mdr import calculateMDR
 from ur import calculateUR
@@ -92,10 +93,10 @@ canvas1.create_window(550, 80, window=detail[4])
 
 labeldate = tk.Label(root, text="Date of observation", bg='#A1E3D8')                            # DATE
 canvas1.create_window(425, 110, window=labeldate)
-entrydate = DateEntry(root, width= 16, background= "#005555", foreground= "white",bd=2)
+entrydate = DateEntry(root, width= 16, background= "#005555", foreground= "white",bd=2, date_pattern='dd/mm/yyyy')
 canvas1.create_window(550, 110, window=entrydate)
 
-labeldateformat = tk.Label(root, text="(mm/dd/yyyy)", bg='#A1E3D8')
+labeldateformat = tk.Label(root, text="(dd/mm/yyyy)", bg='#A1E3D8')
 canvas1.create_window(425, 130, window=labeldateformat)
 
 # INPUTS FOR NUMERICALS
@@ -147,6 +148,12 @@ for i in range(0,3):
 detail[3].insert(0,"8.92")
 detail[4].insert(0,"Sunny")
 
+# -------------------------------------------------------------------------------------- 
+
+#                                      FUNCTIONALITY 
+
+# --------------------------------------------------------------------------------------
+
 # SUBMIT 
 
 def validate(a):
@@ -158,8 +165,10 @@ def validate(a):
 
 def submit():
 
-    flag1 = False
-    flag2 = False
+    entriesCheck = False
+    detailsCheck = False
+
+    # VALUES CHECK
 
     valid=[]
     for i in range(0,7):
@@ -169,7 +178,7 @@ def submit():
         for i in range(0,7):
             IData['inum'][i] = float(entry[i].get())
             entry[i].config(highlightbackground = "white", highlightcolor= "white")
-            flag1 = True
+            entriesCheck = True
     else:
         for i in range(0,7):
             if valid[i] == False:
@@ -180,12 +189,14 @@ def submit():
     global OPTION
     OPTION = clicked.get()
 
+    # DETAILS CHECK 
+
     check = []
-    check.append(len(detail[0].get())<=75)
-    check.append(len(detail[1].get())<=15)
-    check.append(len(detail[2].get())<=15)
+    check.append(len(detail[0].get())<=75 and len(detail[0].get())>0)
+    check.append(len(detail[1].get())<=15 and len(detail[1].get())>0)
+    check.append(len(detail[2].get())<=15 and len(detail[2].get())>0)
     check.append(is_number(detail[3].get()) and float(detail[3].get())<=15 and float(detail[3].get())>=0)
-    check.append(len(detail[4].get())<=10)
+    check.append(len(detail[4].get())<=10 and len(detail[4].get())>0)
      
     if check.count(False) == 0:
         IData['category'] = categories[OPTION]
@@ -196,9 +207,10 @@ def submit():
         IData['weather'] = detail[4].get()
         IData['date'] = entrydate.get_date()
         IData['optionChosen'] = OPTION
+
         for i in range(0,5):
             detail[i].config(highlightbackground = "white", highlightcolor= "white")
-        flag2 = True
+        detailsCheck = True 
     else:
         for i in range(0,5):
             if check[i] == False:
@@ -206,8 +218,9 @@ def submit():
             else:
                 detail[i].config(highlightbackground = "white", highlightcolor= "white")
 
+
     # -------------------------------------------------------------------------------------- 
-    #                                     FUNCTIONALITY 
+    #                                     CALCULATION 
     # --------------------------------------------------------------------------------------
 
     # DEPENDING ON THE CATEGORY CHOSEN PICK THE NECESSARY VALUES
@@ -229,7 +242,7 @@ def submit():
 
     # GENERATE THE PDF
 
-    if flag1 and flag2:
+    if entriesCheck and detailsCheck:
         generatePDF(options,OPTION,data,final_rating_value,cond,fileName)
     
     # OPEN THE FILE
@@ -250,7 +263,6 @@ def reset():
         detail[i].delete(0,tk.END)
         detail[i].insert(0,"")
     entrydate.delete(0,tk.END)
-    entrydate.insert(0,"")
 
 
 # -------------------------------------------------------------------------------------- 
@@ -267,42 +279,3 @@ resetButton = tk.Button(text='Reset', command=reset, padx=12,pady=5, fg='white',
 canvas1.create_window(300, 510, window=resetButton)
 
 root.mainloop()
-
-
-# -------------------------------------------------------------------------------------- 
-
-#                                     FUNCTIONALITY 
-
-# --------------------------------------------------------------------------------------
-
-# DEPENDING ON THE CATEGORY CHOSEN PICK THE NECESSARY VALUES
-
-# if(OPTION == options[0]):
-#     data, final_rating_value,cond = calculateNHSH()
-# elif(OPTION == options[1]):
-#     data, final_rating_value,cond = calculateMDR()
-# elif(OPTION == options[2]):
-#     data, final_rating_value,cond = calculateUR()
-
-# -------------------------------------------------------------------------------------- 
-
-#                                     PDF GENERATION 
-
-# --------------------------------------------------------------------------------------
-
-# GENERATE THE PDF
-
-# generatePDF(options,OPTION,data,final_rating_value,cond)
-
-# os.startfile(r'{}.pdf'.format(fileName))
-
-
-
-
-
-
-# Create Dropdown menu
-# drop = tk.OptionMenu(root, clicked, *options)
-# drop.config(bg='#A1E3D8', padx=10, pady=5)
-# drop["menu"].config(bg="#005555", fg='white')
-# drop.pack()

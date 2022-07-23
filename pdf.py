@@ -28,8 +28,8 @@ def generatePDF(options,OPTION,data,final_rating_value,cond,fileName):
     # PDF CONTENT
 
     pdf.set_font("Helvetica", size=10)
-    lh_list = []  # list with proper line_height for each row
-    use_default_height = 0  # flag
+    lh_list = []  # LIST WITH PROPER LINE_HEIGHT FOR EACH ROW
+    use_default_height = 0  # FLAG
 
     # CATEGORY OF THE ROAD BASED ON THE OPTION SELECTED BY THE USER
 
@@ -67,14 +67,14 @@ def generatePDF(options,OPTION,data,final_rating_value,cond,fileName):
 
     pdf.set_font("Helvetica", size=10)
 
-    # create lh_list of line_heights which size is equal to num rows of data
+    # CREATE LH_LIST OF LINE_HEIGHTS WHICH SIZE IS EQUAL TO NUM ROWS OF DATA
     for row in data:
         for datum in row:
             word_list = datum.split()
-            number_of_words = len(word_list)  # how many words
-            if number_of_words > 2:  # names and cities formed by 2 words like Los Angeles are ok)
+            number_of_words = len(word_list)  # HOW MANY WORDS
+            if number_of_words > 2:
                 use_default_height = 1
-                # new height change according to data
+                # NEW HEIGHT CHANGE ACCORDING TO DATA
                 new_line_height = pdf.font_size * (number_of_words/2)
         if not use_default_height:
             lh_list.append(line_height)
@@ -82,14 +82,14 @@ def generatePDF(options,OPTION,data,final_rating_value,cond,fileName):
             lh_list.append(new_line_height)
             use_default_height = 0
 
-    # create your fpdf table ..passing also max_line_height!
+    # CREATING FPDF TABLE... PASSING MAX_LINE_HEIGHT
     for j, row in enumerate(data):
         for datum in row:
             if(j == 0):
                 pdf.set_font(style='B')
             else:
                 pdf.set_font()
-            line_height = lh_list[j]  # choose right height for current row
+            line_height = lh_list[j]  # CHOOSE RIGHT HEIGHT FOR CURRENT ROW
             pdf.multi_cell(col_width, line_height, datum, border=1, align='L', ln=3,
                         max_line_height=pdf.font_size)
         pdf.ln(line_height)
@@ -99,8 +99,6 @@ def generatePDF(options,OPTION,data,final_rating_value,cond,fileName):
     pdf.cell(txt="Final Rating Value = " + str(round(final_rating_value, 1)),ln=1, align='L')
     pdf.ln()
     pdf.cell(txt="Condition : " + cond, ln=1, align='L')
-
-    #pdf.output('table_with_cells.pdf')
 
     pdf.output(r"{}.pdf".format(fileName))
 
