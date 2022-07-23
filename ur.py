@@ -1,3 +1,9 @@
+# -------------------------------------------------------------------------------------- 
+
+#                                     URBAN ROADS 
+
+# --------------------------------------------------------------------------------------
+
 from function import answer,computeCondition
 from idata import IData
 
@@ -10,15 +16,15 @@ UR = {
 }
 
 
-def computeUR(key, val):
+def computeURRating(key, val):
     if(val > UR[key][2]):
-        return [1, 'Poor']
+        return 1
     elif(val <= UR[key][2] and val >= UR[key][1]):
-        return [answer(UR[key][2], 1.1, UR[key][1], 2, val), 'Fair']
+        return answer(UR[key][2], 1.1, UR[key][1], 2, val)
     elif(val < UR[key][1] and val >= 0):
-        return [answer(0, 3, UR[key][1]-0.01, 2.1, val), 'Good']
+        return answer(0, 3, UR[key][1]-0.01, 2.1, val)
     else:
-        return [0, 'INVALID']
+        return 0
 
 
 def calculateUR():
@@ -35,7 +41,7 @@ def calculateUR():
     final_list = []
     
     for i in range(len(inputs)):
-        final, condition = computeUR(i+1, inputs[i])
+        final = computeURRating(i+1, inputs[i])
         final_list.append(final)
         sum = sum + round(final*wt[i], 3)
 

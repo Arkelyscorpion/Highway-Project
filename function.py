@@ -5,7 +5,7 @@ def answer(x1, y1, x2, y2, x):
 
 def computeCondition(final_rating_value):
 
-    cond = "-"
+    cond = "Invalid Data"
 
     if(final_rating_value <= 1):
         cond = "Poor"

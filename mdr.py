@@ -1,3 +1,9 @@
+# -------------------------------------------------------------------------------------- 
+
+#                                   MDR(s) AND RURAL ROADS 
+
+# --------------------------------------------------------------------------------------
+
 from function import answer,computeCondition
 from idata import IData
 
@@ -10,15 +16,15 @@ MDR = {
 }
 
 
-def computeMDR(key, val):
+def computeMDRRating(key, val):
     if(val > MDR[key][2]):
-        return [1, 'Poor']
+        return 1
     elif(val <= MDR[key][2] and val >= MDR[key][1]):
-        return [answer(MDR[key][2], 1.1, MDR[key][1], 2, val), 'Fair']
+        return answer(MDR[key][2], 1.1, MDR[key][1], 2, val)
     elif(val < MDR[key][1] and val >= 0):
-        return [answer(0, 3, MDR[key][1]-0.01, 2.1, val), 'Good']
+        return answer(0, 3, MDR[key][1]-0.01, 2.1, val)
     else:
-        return [0, 'INVALID']
+        return 0
 
 def calculateMDR():
     
@@ -35,7 +41,7 @@ def calculateMDR():
     final_list = []
 
     for i in range(len(inputs)):
-        final, condition = computeMDR(i+1, inputs[i])
+        final = computeMDRRating(i+1, inputs[i])
         final_list.append(final)
         sum = sum + round(final*wt[i], 3)
 

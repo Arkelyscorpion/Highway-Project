@@ -1,3 +1,9 @@
+# -------------------------------------------------------------------------------------- 
+
+#                          NATIONAL HIGHWAY / STATE HIGHWAY 
+
+# --------------------------------------------------------------------------------------
+
 from function import answer,computeCondition
 from idata import IData
 
@@ -11,16 +17,16 @@ NHSH = {
     7: ["Run depth (mm) using 3m straight edge", 5, 10]
 }
 
-def computeNHSH(key, val):
+def computeNHSHRating(key, val):
 
     if(val > NHSH[key][2]):
-        return [1, 'Poor']
+        return 1
     elif(val <= NHSH[key][2] and val >= NHSH[key][1]):
-        return [answer(NHSH[key][2], 1.1, NHSH[key][1], 2, val), 'Fair']
+        return answer(NHSH[key][2], 1.1, NHSH[key][1], 2, val)
     elif(val < NHSH[key][1] and val >= 0):
-        return [answer(0, 3, NHSH[key][1]-0.01, 2.1, val), 'Good']
+        return answer(0, 3, NHSH[key][1]-0.01, 2.1, val)
     else:
-        return [0, 'INVALID']
+        return 0
 
 
 def calculateNHSH():
@@ -42,7 +48,7 @@ def calculateNHSH():
     final_list = []
 
     for i in range(len(inputs)):
-        final, condition = computeNHSH(i+1, inputs[i])
+        final = computeNHSHRating(i+1, inputs[i])
         final_list.append(final)
         sum = sum + round(final*wt[i], 3)
 
@@ -75,15 +81,3 @@ def calculateNHSH():
     )
 
     return (data,final_rating_value,cond)
-
-
-
-
-
-# inputs.append(IData['inum'][0])
-# inputs.append(IData['inum'][1])
-# inputs.append(IData['inum'][2])
-# inputs.append(IData['inum'][3])
-# inputs.append(IData['inum'][4])
-# inputs.append(IData['inum'][5])
-# inputs.append(IData['inum'][6])
