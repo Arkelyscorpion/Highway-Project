@@ -42,22 +42,31 @@ def generatePDF(options,OPTION,data,final_rating_value,cond,fileName):
 
     pdf.ln()
 
-    pdf.cell(txt="Category of Road : " + IData['category'])
+    pdf.cell(txt="Category of Road : " + IData['category'], align='L')
     pdf.ln()
     pdf.ln()
 
-    pdf.cell(txt= f"Name of the Road : " + IData['name'])
-    pdf.cell(111, txt="Carraigeway Width(m) : " + str(IData['carriage']), align='R')
+    pdf.cell(txt= f"Name of the Road : " + IData['name'], align='L')
     pdf.ln()
     pdf.ln()
 
-    pdf.cell(txt="Chainage of Test Section : " + IData['chainage'])
-    pdf.cell(107, txt="Date of Observation : " + str(IData['date']), align='R')
+    pdf.cell(txt="Carraigeway Width(m) : " + str(IData['carriage']), align='L')
     pdf.ln()
     pdf.ln()
 
-    pdf.cell(txt="Type of Surface : " + IData['surface'])
-    pdf.cell(112, txt="Weather Condition : " + IData['weather'], align='R')
+    pdf.cell(txt="Chainage of Test Section : " + IData['chainage'], align='L')
+    pdf.ln()
+    pdf.ln()
+
+    pdf.cell(txt="Date of Observation : " + str(IData['date']), align='L')
+    pdf.ln()
+    pdf.ln()
+
+    pdf.cell(txt="Type of Surface : " + IData['surface'], align='L')
+    pdf.ln()
+    pdf.ln()
+
+    pdf.cell(txt="Weather Condition : " + IData['weather'], align='L')
     pdf.ln()
     pdf.ln()
 
