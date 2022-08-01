@@ -158,15 +158,15 @@ def submit():
     valid=[]
     for i in range(0,6):
         valid.append(validate(entry[i].get()))
-    valid.append(is_number(entry[6].get()) and (float(entry[i].get())>=0))
+    valid.append(is_number(entry[6].get()) and (float(entry[6].get())>=0))
     
     if valid.count(False) == 0:
-        for i in range(0,6):
+        for i in range(0,7):
             IData['inum'][i] = float(entry[i].get())
             entry[i].config(highlightbackground = "white", highlightcolor= "white")
             entriesCheck = True
     else:
-        for i in range(0,6):
+        for i in range(0,7):
             if valid[i] == False:
                 entry[i].config(highlightbackground = "red", highlightcolor= "red")
             else:
