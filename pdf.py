@@ -90,7 +90,6 @@ def generatePDF(options,OPTION,data,final_rating_value,cond,fileName):
         else:
             lh_list.append(new_line_height)
             use_default_height = 0
-
     # CREATING FPDF TABLE... PASSING MAX_LINE_HEIGHT
     for j, row in enumerate(data):
         for datum in row:
@@ -102,12 +101,21 @@ def generatePDF(options,OPTION,data,final_rating_value,cond,fileName):
             pdf.multi_cell(col_width, line_height, datum, border=1, align='L', ln=3,
                         max_line_height=pdf.font_size)
         pdf.ln(line_height)
+    
 
-    pdf.ln()
     pdf.set_font(style='B')
-    pdf.cell(txt="Final Rating Value = " + str(round(final_rating_value, 1)),ln=1, align='L')
-    pdf.ln()
-    pdf.cell(txt="Condition : " + cond, ln=1, align='L')
+    pdf.multi_cell(4*pdf.epw/5,line_height,"Final Rating Value",border=1,align='C',ln=3,max_line_height=pdf.font_size);
+    pdf.multi_cell(pdf.epw/5,line_height,str(round(final_rating_value, 1)),border=1,align='C',ln=3,max_line_height=pdf.font_size);
+    pdf.ln(line_height)
+    pdf.multi_cell(4*pdf.epw/5,line_height,"Condition",border=1,align='C',ln=3,max_line_height=pdf.font_size);
+    pdf.multi_cell(pdf.epw/5,line_height,cond,border=1,align='C',ln=3,max_line_height=pdf.font_size);
+    pdf.ln(line_height)
+
+    # pdf.ln()
+    # pdf.set_font(style='B')
+    # pdf.cell(txt="Final Rating Value = " + str(round(final_rating_value, 1)),ln=1, align='L')
+    # pdf.ln()
+    # pdf.cell(txt="Condition : " + cond, ln=1, align='L')
 
     pdf.output(r"{}.pdf".format(fileName))
 
