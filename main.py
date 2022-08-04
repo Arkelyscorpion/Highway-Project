@@ -83,7 +83,7 @@ labelsurface = tk.Label(root, text="Type of surface", bg='#A1E3D8')             
 canvas1.create_window(103, 140, window=labelsurface)
 canvas1.create_window(270, 140, window=detail[2])
 
-labelcarriage = tk.Label(root, text="Carriage width (m)", bg='#A1E3D8')                         # CARRIAGE
+labelcarriage = tk.Label(root, text="Carriage width (m)\n(Range : [ 3-20 ])", bg='#A1E3D8')                         # CARRIAGE
 canvas1.create_window(422, 50, window=labelcarriage)
 canvas1.create_window(550, 50, window=detail[3])
 
@@ -130,7 +130,7 @@ label6 = tk.Label(root, text="Settlements (%)", bg='#A1E3D8')
 canvas1.create_window(282, 400, window=label6)
 canvas1.create_window(425, 400, window=entry[5])
 
-label7 = tk.Label(root, text="Rut Depth (mm)", bg='#A1E3D8')
+label7 = tk.Label(root, text="Rut Depth (mm)\n", bg='#A1E3D8')
 canvas1.create_window(285, 440, window=label7)
 canvas1.create_window(425, 440, window=entry[6])
 
@@ -169,8 +169,15 @@ def submit():
         for i in range(0,7):
             if valid[i] == False:
                 entry[i].config(highlightbackground = "red", highlightcolor= "red")
+                if i<6:
+                    tk.messagebox.showinfo("Error",  "Values should lie between 0 to 100\nand should not be left empty")
+                    break
+                elif i==6:
+                    tk.messagebox.showinfo("Error",  "Rut depth cannot be negative\nand field should not be left empty")
+                    break 
             else:
                 entry[i].config(highlightbackground = "white", highlightcolor= "white")
+           
 
     global OPTION
     OPTION = clicked.get()
@@ -201,6 +208,12 @@ def submit():
         for i in range(0,5):
             if check[i] == False:
                 detail[i].config(highlightbackground = "red", highlightcolor= "red")
+                if i==3:
+                    tk.messagebox.showinfo("Error",  "Carriage width should range from 3 to 20\nand field should not be left empty")
+                    break
+                else:
+                    tk.messagebox.showinfo("Error",  "Please fill all the fields")
+                    break
             else:
                 detail[i].config(highlightbackground = "white", highlightcolor= "white")
 

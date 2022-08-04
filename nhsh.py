@@ -76,7 +76,7 @@ def calculateNHSH():
          str(wt[4]), str(round(final_list[4]*wt[4], 1))),
         ("Settlements", str(inputs[5]), str(final_list[5]), str(
             wt[5]), str(round(final_list[5]*wt[5], 1))),
-        ("Run Depth", str(inputs[6]), str(final_list[6]), str(
+        ("Rut Depth", str(inputs[6]), str(final_list[6]), str(
             wt[6]), str(round(final_list[6]*wt[6], 1))),
     )
 
