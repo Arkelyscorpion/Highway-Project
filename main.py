@@ -173,7 +173,7 @@ def submit():
                     tk.messagebox.showinfo("Error",  "Values should lie between 0 to 100\nand should not be left empty")
                     break
                 elif i==6:
-                    tk.messagebox.showinfo("Error",  "Rut depth cannot be negative\nand field should not be left empty")
+                    tk.messagebox.showinfo("Error",  "Rut depth cannot be negative or any other character\nand field should not be left empty")
                     break 
             else:
                 entry[i].config(highlightbackground = "white", highlightcolor= "white")
@@ -188,7 +188,7 @@ def submit():
     check.append(len(detail[0].get())<=75 and len(detail[0].get())>0)
     check.append(len(detail[1].get())<=15 and len(detail[1].get())>0)
     check.append(len(detail[2].get())<=15 and len(detail[2].get())>0)
-    check.append(is_number(detail[3].get()) and float(detail[3].get())<=15 and float(detail[3].get())>=0)
+    check.append(is_number(detail[3].get()) and float(detail[3].get())<=20 and float(detail[3].get())>=3)
     check.append(len(detail[4].get())<=10 and len(detail[4].get())>0)
      
     if check.count(False) == 0:
@@ -209,7 +209,7 @@ def submit():
             if check[i] == False:
                 detail[i].config(highlightbackground = "red", highlightcolor= "red")
                 if i==3:
-                    tk.messagebox.showinfo("Error",  "Carriage width should range from 3 to 20\nand field should not be left empty")
+                    tk.messagebox.showinfo("Error",  "Carriage width should range from 3 to 20 or any other character\nand field should not be left empty")
                     break
                 else:
                     tk.messagebox.showinfo("Error",  "Please fill all the fields")
