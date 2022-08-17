@@ -106,6 +106,8 @@ entry = []
 for i in range(0,7):
     entry.append(tk.Entry(root,highlightthickness=2))
 
+labels = ["Cracking","Ravelling","Potholes","Shoving","Patching","Settlements","Rut depth"]
+
 label1 = tk.Label(root, text="Cracking (%)", bg='#A1E3D8')
 canvas1.create_window(276, 200, window=label1)
 canvas1.create_window(425, 200, window=entry[0])
@@ -153,37 +155,12 @@ def submit():
     entriesCheck = False
     detailsCheck = False
 
-    # VALUES CHECK
-
-    valid=[]
-    for i in range(0,6):
-        valid.append(validate(entry[i].get()))
-    valid.append(is_number(entry[6].get()) and (float(entry[6].get())>=0))
-    
-    if valid.count(False) == 0:
-        for i in range(0,7):
-            IData['inum'][i] = float(entry[i].get())
-            entry[i].config(highlightbackground = "white", highlightcolor= "white")
-            entriesCheck = True
-    else:
-        for i in range(0,7):
-            if valid[i] == False:
-                entry[i].config(highlightbackground = "red", highlightcolor= "red")
-                if i<6:
-                    tk.messagebox.showinfo("Error",  "Values should lie between 0 to 100\nand should not be left empty")
-                    break
-                elif i==6:
-                    tk.messagebox.showinfo("Error",  "Rut depth cannot be negative or any other character\nand field should not be left empty")
-                    break 
-            else:
-                entry[i].config(highlightbackground = "white", highlightcolor= "white")
-           
-
     global OPTION
     OPTION = clicked.get()
 
     # DETAILS CHECK 
 
+    details = ["Name of the road","Chainage","Type of surface","Carriage width","Weather condition"]
     check = []
     check.append(len(detail[0].get())<=75 and len(detail[0].get())>0)
     check.append(len(detail[1].get())<=15 and len(detail[1].get())>0)
@@ -206,17 +183,45 @@ def submit():
         detailsCheck = True 
     else:
         for i in range(0,5):
+            detail[i].config(highlightbackground = "white", highlightcolor= "white")
+
+        for i in range(0,5):
             if check[i] == False:
                 detail[i].config(highlightbackground = "red", highlightcolor= "red")
                 if i==3:
-                    tk.messagebox.showinfo("Error",  "Carriage width should range from 3 to 20 or any other character\nand field should not be left empty")
+                    tk.messagebox.showinfo("Error",  f"{details[i]} should range from 3.00 to 20.00 and field should not be left empty")
                     break
                 else:
-                    tk.messagebox.showinfo("Error",  "Please fill all the fields")
+                    tk.messagebox.showinfo("Error",  f"{details[i]} should not be left empty")
                     break
-            else:
-                detail[i].config(highlightbackground = "white", highlightcolor= "white")
 
+    # VALUES CHECK
+
+    valid=[]
+    for i in range(0,6):
+        valid.append(validate(entry[i].get()))
+    valid.append(is_number(entry[6].get()) and (float(entry[6].get())>=0))
+    
+    if valid.count(False) == 0:
+        for i in range(0,7):
+            IData['inum'][i] = float(entry[i].get())
+            entry[i].config(highlightbackground = "white", highlightcolor= "white")
+            entriesCheck = True
+    else:
+        for i in range(0,7):
+            entry[i].config(highlightbackground = "white", highlightcolor= "white")
+
+        for i in range(0,7):
+            if valid[i] == False:
+                entry[i].config(highlightbackground = "red", highlightcolor= "red")
+                if i<6:
+                    tk.messagebox.showinfo("Error", f"{labels[i]} should lie between 0 to 100\nand should not be left empty")
+                    break
+                elif i==6:
+                    tk.messagebox.showinfo("Error",  f"{labels[i]} cannot be negative and field should not be left empty")
+                    break
+                
+           
 
     # -------------------------------------------------------------------------------------- 
     #                                     CALCULATION 
@@ -257,10 +262,12 @@ def reset():
     for i in range(0,7):
         entry[i].delete(0,tk.END)
         entry[i].insert(0,"") 
+        entry[i].config(highlightbackground = "white", highlightcolor= "white")
 
     for i in range(0,5):
         detail[i].delete(0,tk.END)
         detail[i].insert(0,"")
+        detail[i].config(highlightbackground = "white", highlightcolor= "white")
     entrydate.delete(0,tk.END)
 
 
